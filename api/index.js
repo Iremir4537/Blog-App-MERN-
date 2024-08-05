@@ -1,17 +1,19 @@
-const express = require('express')
-const cors = require('cors')
+import express from 'express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import authRoute from './routes/auth.js'
+import connectDB from './config/db.js'
+
+dotenv.config({ path: './api/config/config.env'})
+connectDB()
 
 const app = express()
-const PORT = 4000
 
 app.use(cors())
 app.use(express.json())
 
-app.post('/register',(req,res) =>{
-    const {username,password} = req.body
-    res.json({requestData:{username,password}})
-})
+app.use('/auth',authRoute)
 
-app.listen(PORT,() => {
-    console.log(`Server is running on Port ${PORT}`)
+app.listen(process.env.PORT,() => {
+    console.log(`Server is running on Port ${process.env.PORT}`)
 })
