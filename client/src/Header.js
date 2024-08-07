@@ -6,16 +6,6 @@ export default function Header(){
 
     const {setUserInfo,userInfo} = useContext(UserContext)
 
-    useEffect(() => {
-      fetch('http://localhost:4000/auth/profile',{
-        credentials:'include'
-      }).then(res => {
-        res.json().then(data =>{
-          setUserInfo(data)
-        })
-      })
-    })
-
     function logout() {
       fetch('http://localhost:4000/auth/logout',{
         credentials:'include',
@@ -33,7 +23,7 @@ export default function Header(){
             {
               username && (
                 <>
-                  <Link to={'/create'}>Create new post</Link>
+                  <Link to='/create'>Create new post</Link>
                   <a onClick={logout}>Logout</a>
                 </>
               )
