@@ -30,7 +30,7 @@ router.post('/login', async(req,res) => {
         if(passwordcheck){
             jwt.sign({username:user.username,id:user._id},process.env.JWTSECRET,{},(err,token) => {
                 if(err) throw err;
-                res.cookie('token',token).json('ok')
+                res.cookie('token',token).json({id: user._id,username})
             }) 
         }
         else{
@@ -48,10 +48,11 @@ router.get('/profile', async(req,res) => {
     else{
         jwt.verify(token,process.env.JWTSECRET,{}, async (err,info) => {
             if (err) throw err
-    
             const user = await User.findById(info.id)
-            if(!user) throw err
-            res.json(info)
+            if(!user){
+                res.status(400).json(false)
+            }
+            res.json(true)
         })
     }
 })
